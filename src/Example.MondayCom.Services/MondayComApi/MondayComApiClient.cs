@@ -1,4 +1,3 @@
-
 using System.Text;
 using System.Text.Json;
 using Example.MondayCom.Services.MondayComApi.Models;
@@ -28,6 +27,7 @@ public class MondayComApiClient
             throw new MondayComApiException("Board id is invalid", null);
         }
 
+        var operationName = "getBoardColumns";
         var query = @"query getBoardColumns($boardId: Int) {
     boards (ids: [$boardId]) {
         columns {
@@ -43,31 +43,7 @@ public class MondayComApiClient
             BoardId = boardId,
         };
 
-        var client = CreateHttpClient();
-        var request = CreateHttpRequestMessage(query, "getBoardColumns", variables);
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = JsonSerializer.Deserialize<MondayComGetBoardColumnsModel>(responseBody, _jsonSerializerOptions);
-
-            if (result?.HasError ?? true)
-            {
-                throw new MondayComApiException(result);
-            }
-
-            return result;
-        }
-        else
-        {
-            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
-
-            throw new MondayComApiException(errors);
-        }
-
+        return await RequestAsync<GetBoardItemVairables, MondayComGetBoardColumnsModel>(query, operationName, variables, cancellationToken);
     }
 
     public async Task<MondayComGetBoardItemsModel?> GetBoardItemsAsync(long boardId, CancellationToken cancellationToken = default)
@@ -76,7 +52,7 @@ public class MondayComApiClient
         {
             throw new MondayComApiException("Board id is invalid", null);
         }
-
+        var operationName = "getBoard";
         var query = @"query getBoard($boardId: Int) {
     boards (ids: [$boardId]) {
         name
@@ -98,30 +74,7 @@ public class MondayComApiClient
             BoardId = boardId,
         };
 
-        var client = CreateHttpClient();
-        var request = CreateHttpRequestMessage(query, "getBoard", variables);
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = JsonSerializer.Deserialize<MondayComGetBoardItemsModel>(responseBody, _jsonSerializerOptions);
-
-            if (result?.HasError ?? true)
-            {
-                throw new MondayComApiException(result);
-            }
-
-            return result;
-        }
-        else
-        {
-            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
-
-            throw new MondayComApiException(errors);
-        }
+        return await RequestAsync<GetBoardItemVairables, MondayComGetBoardItemsModel>(query, operationName, variables, cancellationToken);
     }
 
     public async Task<MondayComItemsModel?> GetBoardItemByColumnValueAsync(long boardId, string columnId, string columnValue, CancellationToken cancellationToken = default)
@@ -136,6 +89,7 @@ public class MondayComApiClient
             throw new MondayComApiException("Column id is required", null);
         }
 
+        var operationName = "getBoardItemByColumnValue";
         var query = @"query getBoardItemByColumnValue($boardId: Int!, $columnId: String!, $columnValue: String!){
     items: items_by_column_values(board_id: $boardId, column_id: $columnId, column_value: $columnValue) {
         id
@@ -154,30 +108,7 @@ public class MondayComApiClient
             ColumnValue = columnValue,
         };
 
-        var client = CreateHttpClient();
-        var request = CreateHttpRequestMessage(query, "getBoardItemByColumnValue", variables);
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = JsonSerializer.Deserialize<MondayComItemsModel>(responseBody, _jsonSerializerOptions);
-
-            if (result?.HasError ?? true)
-            {
-                throw new MondayComApiException(result);
-            }
-
-            return result;
-        }
-        else
-        {
-            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
-
-            throw new MondayComApiException(errors);
-        }
+        return await RequestAsync<GetBoardItemByColumnValueVariables, MondayComItemsModel>(query, operationName, variables, cancellationToken);
     }
 
     public async Task<MondayComCreatedItemModel?> CreateBoardItemAsync(long boardId, string? groupId, string itemName, IDictionary<string, string> columnValues, CancellationToken cancellationToken = default)
@@ -192,6 +123,7 @@ public class MondayComApiClient
             throw new MondayComApiException("ItemName is required", null);
         }
 
+        var operationName = "createBoardItem";
         var query = @"mutation createBoardItem($boardId: Int!, $groupId: String, $itemName:String!, $columnValues: JSON){
   create_item(board_id: $boardId, group_id: $groupId, item_name: $itemName, column_values: $columnValues) {
     id
@@ -209,34 +141,12 @@ public class MondayComApiClient
             ColumnValues = columnValuesJson,
         };
 
-        var client = CreateHttpClient();
-        var request = CreateHttpRequestMessage(query, "createBoardItem", variables);
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = JsonSerializer.Deserialize<MondayComCreatedItemModel>(responseBody, _jsonSerializerOptions);
-
-            if (result?.HasError ?? true)
-            {
-                throw new MondayComApiException(result);
-            }
-
-            return result;
-        }
-        else
-        {
-            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
-
-            throw new MondayComApiException(errors);
-        }
+        return await RequestAsync<CreateBoardItemVariables, MondayComCreatedItemModel>(query, operationName, variables, cancellationToken);
     }
 
     public async Task<MondayComUpdatedItemModel?> UpdateColumnValuesAsync(long boardId, long itemId, string? itemName, IDictionary<string, string> columnValues, CancellationToken cancellationToken = default)
     {
+        var operationName = "updateBoardItem";
         var query = @"mutation updateBoardItem($itemId: Int, $boardId: Int!, $columnValues: JSON!) {
     change_multiple_column_values(item_id:$itemId, board_id:$boardId, column_values: $columnValues) {
         id
@@ -273,30 +183,7 @@ public class MondayComApiClient
             ColumnValues = columnValuesJson,
         };
 
-        var client = CreateHttpClient();
-        var request = CreateHttpRequestMessage(query, "updateBoardItem", variables);
-
-        var response = await client.SendAsync(request, cancellationToken);
-
-        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = JsonSerializer.Deserialize<MondayComUpdatedItemModel>(responseBody, _jsonSerializerOptions);
-
-            if (result?.HasError ?? true)
-            {
-                throw new MondayComApiException(result);
-            }
-
-            return result;
-        }
-        else
-        {
-            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
-
-            throw new MondayComApiException(errors);
-        }
+        return await RequestAsync<UpdateBoardItemVariables, MondayComUpdatedItemModel>(query, operationName, variables, cancellationToken);
     }
 
 
@@ -332,5 +219,33 @@ public class MondayComApiClient
         return requestMessage;
     }
 
+    private async Task<TResult> RequestAsync<TVariables, TResult>(string query, string operationName, TVariables? variables, CancellationToken cancellationToken)
+        where TVariables : class, new()
+        where TResult : IResponseModel
+    {
+        var client = CreateHttpClient();
+        var request = CreateHttpRequestMessage(query, operationName, variables);
 
+        var response = await client.SendAsync(request, cancellationToken);
+
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = JsonSerializer.Deserialize<TResult>(responseBody, _jsonSerializerOptions);
+
+            if (result?.HasError ?? true)
+            {
+                throw new MondayComApiException(result);
+            }
+
+            return result;
+        }
+        else
+        {
+            var errors = JsonSerializer.Deserialize<MondayComErrorsModel>(responseBody, _jsonSerializerOptions);
+
+            throw new MondayComApiException(errors);
+        }
+    }
 }
