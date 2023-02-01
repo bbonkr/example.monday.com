@@ -1,3 +1,3 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComGetBoardColumnsModel : ResponseModel<MondayComBoardColumnsDataModel> { }
+public class MondayComGetBoardColumnsModel : MondayComResponseModel<MondayComBoardColumnsDataModel> { }

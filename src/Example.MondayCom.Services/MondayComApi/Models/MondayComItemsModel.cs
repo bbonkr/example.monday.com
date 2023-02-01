@@ -2,5 +2,5 @@ using System.Text.Json.Serialization;
 
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComItemsModel : ResponseModel<MondayComItemsDataModel> { }
+public class MondayComItemsModel : MondayComResponseModel<MondayComItemsDataModel> { }
 

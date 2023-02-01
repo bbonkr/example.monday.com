@@ -363,13 +363,13 @@ public class MondayComApiCaller
 
 public class ColumnValuesModel
 {
-    public string FirstName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
-    public string Uid { get; set; }
+    public string Uid { get; set; } = string.Empty;
 
-    public string Language { get; set; }
+    public string Language { get; set; } = string.Empty;
 }

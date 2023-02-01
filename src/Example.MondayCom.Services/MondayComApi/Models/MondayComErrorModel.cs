@@ -2,7 +2,7 @@ namespace Example.MondayCom.Services.MondayComApi.Models;
 
 public class MondayComErrorModel
 {
-    public string Message { get; set; }
+    public string Message { get; set; } = string.Empty;
 
     public IEnumerable<MondayComErrorLocationModel> Locations { get; set; } = Enumerable.Empty<MondayComErrorLocationModel>();
 

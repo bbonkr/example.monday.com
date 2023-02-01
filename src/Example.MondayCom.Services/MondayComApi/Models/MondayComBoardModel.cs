@@ -4,9 +4,9 @@ namespace Example.MondayCom.Services.MondayComApi.Models;
 
 public class MondayComBoardModel
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string State { get; set; }
+    public string State { get; set; } = string.Empty;
 
     [JsonPropertyName("board_folder_id")]
     public long? FolderId { get; set; }

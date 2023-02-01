@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComGetBoardItemsModel : ResponseModel<MondayComBoardsDataModel>
+public class MondayComGetBoardItemsModel : MondayComResponseModel<MondayComBoardsDataModel>
 {
 
 }

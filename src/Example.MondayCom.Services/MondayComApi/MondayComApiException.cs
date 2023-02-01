@@ -4,16 +4,16 @@ namespace Example.MondayCom.Services.MondayComApi;
 
 public class MondayComApiException : Exception
 {
-    public MondayComApiException(string message, IResponseModel? model) : base(message)
+    public MondayComApiException(string message, IMondayComResponseModel? model) : base(message)
     {
         ErrorDetail = model;
     }
 
-    public MondayComApiException(IResponseModel? model)
+    public MondayComApiException(IMondayComResponseModel? model)
         : this(model?.Errors?.FirstOrDefault()?.Message ?? "An unknown error has occurred.", model)
     {
 
     }
 
-    public IResponseModel? ErrorDetail { get; private set; }
+    public IMondayComResponseModel? ErrorDetail { get; private set; }
 }

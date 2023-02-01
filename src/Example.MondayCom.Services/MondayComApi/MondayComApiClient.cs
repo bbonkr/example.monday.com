@@ -7,8 +7,6 @@ namespace Example.MondayCom.Services.MondayComApi;
 
 public class MondayComApiClient
 {
-    public const string BASE_URL = "https://api.monday.com/v2";
-
     private readonly MondayComOptions _mondayComOptions;
     private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
@@ -186,18 +184,26 @@ public class MondayComApiClient
         return await RequestAsync<UpdateBoardItemVariables, MondayComUpdatedItemModel>(query, operationName, variables, cancellationToken);
     }
 
-
     private HttpClient CreateHttpClient() => new();
-
 
     private HttpRequestMessage CreateHttpRequestMessage<TVariables>(string query, string? operationName, TVariables? variables = default)
         where TVariables : class, new()
     {
-        HttpRequestMessage requestMessage = new(HttpMethod.Post, BASE_URL);
+        if (string.IsNullOrWhiteSpace(_mondayComOptions.ApiKey))
+        {
+            throw new MondayComApiException("Api key is required", null);
+        }
+
+        if (string.IsNullOrWhiteSpace(_mondayComOptions.BaseUrl))
+        {
+            throw new MondayComApiException("Base url is required", null);
+        }
+
+        HttpRequestMessage requestMessage = new(HttpMethod.Post, _mondayComOptions.BaseUrl);
 
         requestMessage.Headers.Add("Authorization", _mondayComOptions.ApiKey);
 
-        RequestModel<TVariables> requestBody = new()
+        MondayComRequestModel<TVariables> requestBody = new()
         {
             Query = query,
         };
@@ -221,7 +227,7 @@ public class MondayComApiClient
 
     private async Task<TResult> RequestAsync<TVariables, TResult>(string query, string operationName, TVariables? variables, CancellationToken cancellationToken)
         where TVariables : class, new()
-        where TResult : IResponseModel
+        where TResult : IMondayComResponseModel
     {
         var client = CreateHttpClient();
         var request = CreateHttpRequestMessage(query, operationName, variables);

@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComUpdatedItemModel : ResponseModel<MondayComUpdatedItemDataModel> { }
+public class MondayComUpdatedItemModel : MondayComResponseModel<MondayComUpdatedItemDataModel> { }
 
 public class MondayComUpdatedItemDataModel
 {

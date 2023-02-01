@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class RequestModel<TVariables> where TVariables : class, new()
+public class MondayComRequestModel<TVariables> where TVariables : class, new()
 {
     public string? OperationName { get; set; }
 

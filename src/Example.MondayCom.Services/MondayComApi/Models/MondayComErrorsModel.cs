@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComErrorsModel : ResponseModel<object>
+public class MondayComErrorsModel : MondayComResponseModel<object>
 {
 
 }

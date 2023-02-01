@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public abstract class ResponseModel<TResult> : ResponseModelBase, IResponseModel<TResult>
+public abstract class MondayComResponseModel<TResult> : MondayComResponseModelBase, IMondayComResponseModel<TResult>
 {
     public TResult? Data { get; set; } = default;
 

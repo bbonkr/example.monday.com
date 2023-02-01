@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public interface IResponseModel
+public interface IMondayComResponseModel
 {
     IEnumerable<MondayComErrorModel>? Errors { get; }
 
@@ -8,7 +8,7 @@ public interface IResponseModel
 }
 
 
-public interface IResponseModel<TResult> : IResponseModel
+public interface IMondayComResponseModel<TResult> : IMondayComResponseModel
 {
     TResult? Data { get; }
 }
