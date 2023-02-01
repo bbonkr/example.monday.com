@@ -2,5 +2,5 @@ namespace Example.MondayCom.Services.MondayComApi.Models;
 
 public class MondayComBoardColumnsDataModel
 {
-    public IEnumerable<MondayComBoardColumnsModel> Boards { get; set; }
+    public IEnumerable<MondayComBoardColumnsModel> Boards { get; set; } = Enumerable.Empty<MondayComBoardColumnsModel>();
 }

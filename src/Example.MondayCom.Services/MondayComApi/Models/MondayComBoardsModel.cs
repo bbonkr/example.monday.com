@@ -4,8 +4,3 @@ public class MondayComGetBoardItemsModel : ResponseModel<MondayComBoardsDataMode
 {
 
 }
-
-public class MondayComBoardsDataModel
-{
-    public IEnumerable<MondayComBoardModel>? Boards { get; set; } = Enumerable.Empty<MondayComBoardModel>();
-}

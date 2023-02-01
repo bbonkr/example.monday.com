@@ -40,16 +40,26 @@ using IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-await StartMondayComApi(host.Services);
+await StartMondayComApi(host);
 
-await host.RunAsync();
+// await host.RunAsync();
 
-static async Task StartMondayComApi(IServiceProvider sp)
+static async Task StartMondayComApi(IHost host)
 {
-    CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(30));
+    CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(60));
     CancellationToken cancellationToken = cancellationTokenSource.Token;
+
+    var sp = host.Services;
 
     var caller = sp.GetRequiredService<MondayComApiCaller>();
 
     await caller.GetBoardItemsAsync(cancellationToken);
+
+    await caller.GetBoardItemByColumnValueAsync(cancellationToken);
+
+    await caller.GetBoardItemsAsync(cancellationToken);
+
+    await caller.CreateBoardItemAsync(1, cancellationToken);
+
+    await caller.UpdateBoardItemAsync(1, cancellationToken);
 }

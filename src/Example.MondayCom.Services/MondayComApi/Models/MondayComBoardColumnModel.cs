@@ -1,6 +1,6 @@
 namespace Example.MondayCom.Services.MondayComApi.Models;
 
-public class MondayComBoardColumnModel
+public class MondayComBoardColumnModel : IMondayComBoardColumn
 {
     public string Id { get; set; }
 
